@@ -3,6 +3,8 @@ import java.util.Stack;
 
 public class Maze {
 
+    State initialState;
+
     public static void main(String[] args) {
         boolean[][] testedPath;
         char[][] maze = {
@@ -31,7 +33,9 @@ public class Maze {
 
 
 
-    public static boolean Search() {
+    public static boolean Search(State s) {
+
+        if (s.)
 
         //bool Search(State s)
         //  if s==Goal
