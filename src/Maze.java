@@ -3,7 +3,7 @@ import java.util.Stack;
 
 public class Maze {
     public static boolean ok; //return through the recursive statements
-    State initialState;
+    static State initialState = new State(3,3,'s');
     public static char goal ='g';
     int[] startCoords ={3,3}; // Lokation af 's'
     //State [][] allStates; // array of alle possible states //bad idea
@@ -24,9 +24,8 @@ public class Maze {
     public static Stack<State> stepTracer = new Stack<State>();
 
     public static void main(String[] args) {
-        boolean[][] testedPath;
 
-
+        search(initialState);
 
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 13; j++) {
@@ -36,6 +35,12 @@ public class Maze {
                     possiblePath[i][j] = true;
             }
         }// laver et 2d array over de mulige fetler man kan gå på
+//        for (int i = 0; i < 10; i++) {
+//            for (int j = 0; j < 13; j++) {
+//                System.out.print(possiblePath[i][j]);
+//            }
+//            System.out.println("");
+//        }// print
 
         for (char[] a : maze) {
             for (char b: a) {
@@ -69,6 +74,7 @@ public class Maze {
             State newState = stack.pop();
             ok = search(newState);
             if (ok){
+                System.out.println("Found goal");
                 return true;
             }
 
