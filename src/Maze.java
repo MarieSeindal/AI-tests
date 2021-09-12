@@ -35,7 +35,7 @@ public class Maze {
 
     public static boolean Search(State s) {
 
-        if (s.)
+        //if (s.)
 
         //bool Search(State s)
         //  if s==Goal
