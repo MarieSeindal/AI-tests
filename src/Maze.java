@@ -2,12 +2,12 @@ import java.lang.reflect.Array;
 import java.util.Stack;
 
 public class Maze {
-
+    public static boolean ok; //return through the recursive statements
     State initialState;
     public static char goal ='g';
     int[] startCoords ={3,3}; // Lokation af 's'
     //State [][] allStates; // array of alle possible states //bad idea
-    public static boolean[][] possiblePath = new boolean[13][10]; //Array of visited or impossible spaces. Where to look
+    public static boolean[][] possiblePath = new boolean[10][13]; //Array of visited or impossible spaces. Where to look
     public static char[][] maze = {
             {11035,11035,11035,11035,11035,11035,11035,11035,11035,11035,11035,11035,11035},
             {11035,11036,11035,11036,11035,11036,11035,11036,11036,11036,11036,11036,11035},
@@ -28,8 +28,8 @@ public class Maze {
 
 
 
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 13; j++) {
                 if (maze[i][j] == 11035)
                     possiblePath[i][j] = false;
                 else if (maze[i][j] == 11036 || maze[i][j] == 'g')
@@ -45,11 +45,12 @@ public class Maze {
         }// print maze
     }
 
-    public static boolean Search(State s) {//bool Search(State s)
+    public static boolean search(State s) {//bool Search(State s)
 
-        if(s.getMyField() == 'g')//  if s==Goal
+        if(s.getMyField() == 'g')//  if we are on goal
             return true;
 
+        //create possible substates
         for (int i = 0; i < 4; i++) {
 
             if (possiblePath[s.getLlocationX()][s.getLlocationY()+1]) {//step north
@@ -66,30 +67,13 @@ public class Maze {
             }
 
             State newState = stack.pop();
-
-
-            boolean ok; //return through the recursive statements
-
-            //create possible substates
-            // and search through them
-
-
+            ok = search(newState);
+            if (ok){
+                return true;
+            }
 
         }
         return false;
-
-        //  for each substate si
-        //    OK=Search(si)
-        //    if OK
-        //      return true
-        //  return false
-
-        //Tilføj forbundede felter til der hvor du står
-
-        //Pop og Tjek feltet du står på
-
-        //Search next
-
 
     }
 
