@@ -1,19 +1,42 @@
 public class State {
+    char myField;
+    int locationX;
+    int locationY;
+    boolean[] possiblePaths; //North east south west
 
-    int posX;
-    int posY;
+    public State(int x, int y, char field) {
+        this.myField = 's';
+        this.locationX = 3;
+        this.locationY = 3;
+    }
 
-//    public State(int posX, int posY) {
-//        =posX;
-//        int posY;
-//
-//    }
+    public int getLlocationX(){
+        return this.locationX;
+    }
+    public int getLlocationY(){
+        return this.locationY;
+    }
+    public void setLocationX(int x){
+        this.locationX=x;
+    }
+    public void setLocationY(int y){
+        this.locationY=y;
+    }
 
-    public void setX(){
-
+    public char getMyField(){
+        return this.myField;
+    }
+    public void setMyField(char newfield){
+        this.myField = newfield;
     }
 
 
+//    public boolean isPossible(int direction){//1North 2east 3south 4west
+//        if(this.possiblePaths[0])
+//            return true;
+//
+//        return true
+//    }
 
 
 
