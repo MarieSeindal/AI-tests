@@ -34,6 +34,7 @@ public class Maze {
                     possiblePath[i][j] = true;
             }
         }// laver et 2d array over de mulige fetler man kan gå på
+
 //        for (int i = 0; i < 10; i++) {
 //            for (int j = 0; j < 13; j++) {
 //                System.out.print(possiblePath[i][j]);
