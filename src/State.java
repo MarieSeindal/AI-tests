@@ -5,9 +5,10 @@ public class State {
     boolean[] possiblePaths; //North east south west
 
     public State(int x, int y, char field) {
-        this.myField = 's';
-        this.locationX = 3;
-        this.locationY = 3;
+        locationX = x;
+        locationY = y;
+        myField = field;
+
     }
 
     public int getLlocationX(){
