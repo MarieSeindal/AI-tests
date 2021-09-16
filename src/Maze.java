@@ -7,8 +7,11 @@ public class Maze {
     public static char goal ='g';
     static int layerOfSearch = 0;
     int[] startCoords ={3,3}; // Lokation af 's'
+    int[] goalCoords ={8,11}; // y,x
     //State [][] allStates; // array of alle possible states //bad idea
     public static boolean[][] possiblePath = new boolean[10][13]; //Array of visited or impossible spaces. Where to look
+
+    //Get maze coords: maze[y][x]
     public static char[][] maze = {
             {11035,11035,11035,11035,11035,11035,11035,11035,11035,11035,11035,11035,11035},
             {11035,11036,11035,11036,11035,11036,11035,11036,11036,11036,11036,11036,11035},
@@ -71,34 +74,40 @@ public class Maze {
         }
 
         //create possible substates in the 4 directions
-        for (int i = 0; i < 4; i++) {
 
 
-            if (possiblePath[s.getLlocationX()][s.getLlocationY()+1]) {//step north
-                stack.push(new State(s.getLlocationX(),s.getLlocationY()+1,maze[s.getLlocationX()][s.getLlocationY()+1])); //push mulig state til stacken
-                possiblePath[s.getLlocationX()][s.getLlocationY()+1] = false;
+            if (possiblePath[s.getLlocationY()-1][s.getLlocationX()]) {//step north
+                stack.push(new State(s.getLlocationX(),s.getLlocationY()-1,maze[s.getLlocationY()-1][s.getLlocationX()])); //push mulig state til stacken
+                possiblePath[s.getLlocationY()-1][s.getLlocationX()] = false;
             }
-            if (possiblePath[s.getLlocationX()+1][s.getLlocationY()]){//step east
-                stack.push(new State(s.getLlocationX()+1,s.getLlocationY(),maze[s.getLlocationX()+1][s.getLlocationY()])); //push mulig state til stacken
-                possiblePath[s.getLlocationX()+1][s.getLlocationY()] = false;
+            if (possiblePath[s.getLlocationY()][s.getLlocationX()-1]){//step west
+                stack.push(new State(s.getLlocationX()-1,s.getLlocationY(),maze[s.getLlocationY()][s.getLlocationX()-1])); //push mulig state til stacken
+                possiblePath[s.getLlocationY()][s.getLlocationX()-1] = false;
             }
-            if (possiblePath[s.getLlocationX()][s.getLlocationY()-1]){//step south
-                stack.push(new State(s.getLlocationX(),s.getLlocationY()+1,maze[s.getLlocationX()][s.getLlocationY()-1])); //push mulig state til stacken
-                possiblePath[s.getLlocationX()][s.getLlocationY()-1] = false;
+            if (possiblePath[s.getLlocationY()+1][s.getLlocationX()]){//step south
+                stack.push(new State(s.getLlocationX(),s.getLlocationY()+1,maze[s.getLlocationY()+1][s.getLlocationX()])); //push mulig state til stacken
+                possiblePath[s.getLlocationY()+1][s.getLlocationX()] = false;
             }
-            if (possiblePath[s.getLlocationX()-1][s.getLlocationY()]){//step west
-                stack.push(new State(s.getLlocationX()-1,s.getLlocationY(),maze[s.getLlocationX()-1][s.getLlocationY()])); //push mulig state til stacken
-                possiblePath[s.getLlocationX()-1][s.getLlocationY()] = false;
+            if (possiblePath[s.getLlocationY()][s.getLlocationX()+1]){//step east
+                stack.push(new State(s.getLlocationX()+1,s.getLlocationY(),maze[s.getLlocationY()][s.getLlocationX()+1])); //push mulig state til stacken
+                possiblePath[s.getLlocationY()][s.getLlocationX()+1] = false;
             }
+            else {
+            }
+
+
 
             State newState = stack.pop();
             System.out.println("new stateX " + newState.getLlocationX());
             System.out.println("new statey " + newState.getLlocationY());
+
+        //System.out.println("Allowed? " + possiblePath[newState.getLlocationY()][newState.getLlocationX()]);
+
+
             ok = search(newState);
             if (ok){
                 System.out.println("Found goal");
                 return true;
-            }
 
         }
         return false;
