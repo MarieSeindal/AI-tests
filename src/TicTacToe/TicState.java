@@ -1,10 +1,10 @@
 package TicTacToe;
 
-public class ticState {
+public class TicState {
 
     char [][] placedPieces;
 
-    public ticState(char[][] stateInput){
+    public TicState(char[][] stateInput){
         placedPieces = stateInput;
     }
 
