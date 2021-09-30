@@ -32,12 +32,7 @@ public class State {
     }
 
 
-//    public boolean isPossible(int direction){//1North 2east 3south 4west
-//        if(this.possiblePaths[0])
-//            return true;
-//
-//        return true
-//    }
+
 
 
 
