@@ -3,6 +3,7 @@ package TicTacToe;
 import java.util.Scanner;
 
 public class TicTacToe {
+    static boolean continueGame = true;
     public static boolean gameOver = false;
     static boolean pvp = false; //assumed vs AI
     static char player1;
@@ -21,9 +22,20 @@ public class TicTacToe {
         // 2d array with the board as it is, space = vacant, x=p1, o=p2, A=any
         char[][] startState ={{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
 
-        initGame();
+        while (continueGame){
+            initGame();
 
-        play(startState);
+            play(startState);
+
+            System.out.println("Play again?\ny/n");
+            String userInput = scanner.nextLine();
+            userInput.toLowerCase();
+            if (userInput.equals("n"))
+                continueGame = false;
+
+        }
+
+
 
     }
 
@@ -38,7 +50,6 @@ public class TicTacToe {
         }
         else if (userInput.equals("2")){
             pvp = true;
-
         }
 
         //Choose sides
@@ -83,7 +94,9 @@ public class TicTacToe {
                 // Fill 2d array
             }
             else{ //PvAI game
-                // player or AI makes move
+                //if player 2's turn (AI)
+                    // Calculate move with alhpa beta min max
+                    // make move
             }
 
             // victory or death?
@@ -97,13 +110,15 @@ public class TicTacToe {
             }else
                 currentPlayer = player1;
 
-            break; //todo remove
+            break; //todo debug remove
 
         }
     }
 
-
-    public static int EndGame(char[][] currentState){ //return 0 for no ending, 1 for x won, 2 for o won, 3 for full board
+    /*
+    //return 0 for no ending, 1 for x won, 2 for o won, 3 for full board
+    */
+    public static int EndGame(char[][] currentState){
 
         //check current player
         if (checkPlayerwon(currentState)){
@@ -182,6 +197,5 @@ public class TicTacToe {
         return false;
 
     }
-
 
 }
