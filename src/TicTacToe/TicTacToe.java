@@ -43,8 +43,6 @@ public class TicTacToe {
 
         }
 
-
-
     }
 
 
@@ -134,35 +132,57 @@ public class TicTacToe {
         System.out.println("Player " + printPlayer + " choose your move");
         int inputInt = scanner.nextInt();
         boolean wrongChoice = false;
-        if (inputInt >=1 && inputInt <=3){
-            if (!(vacantField[0][inputInt-1])){
+        if (inputInt >=1 && inputInt <=3){ //Row 1
+            if (!(vacantField[0][inputInt-1])){ //if field is not vacant
                 wrongChoice = true;
+            }else {
+                currentBoard[0][inputInt - 1] = currentPlayer;
+                vacantField[0][inputInt - 1] = false;
             }
-        }else if(inputInt >=4 && inputInt <=6){
+
+
+        }else if(inputInt >=4 && inputInt <=6){ //Row 2
             if (!(vacantField[1][(inputInt-1)%3])){
                 wrongChoice = true;
+            }else {
+                currentBoard[1][(inputInt - 1) % 3] = currentPlayer;
+                vacantField[1][(inputInt - 1) % 3] = false;
             }
-        }else if(inputInt >=7 && inputInt <=9){
+
+        }else if(inputInt >=7 && inputInt <=9){ //Row 3
             if (!(vacantField[2][(inputInt-1)%3])){
                 wrongChoice = true;
+            }else {
+                currentBoard[2][(inputInt - 1) % 3] = currentPlayer;
+                vacantField[2][(inputInt - 1) % 3] = false;
             }
         }
 
         //Player makes move
-        while (wrongChoice){
+        while (wrongChoice){ //If the player entered an illegal spot, loop until a valid spot is chosen.
             System.out.println("That spot is taken. Player " + printPlayer + " choose a new move");
             inputInt = scanner.nextInt();
             if (inputInt >=1 && inputInt <=3){
-                if (!(vacantField[0][inputInt-1])){
+                if (!(vacantField[0][inputInt-1])){ //if spot is taken, you made a wrong choice
                     wrongChoice = true;
+                }else {
+                    currentBoard[0][(inputInt - 1) % 3] = currentPlayer;
+                    vacantField[0][(inputInt - 1) % 3] = false;
                 }
             }else if(inputInt >=4 && inputInt <=6){
                 if (!(vacantField[1][(inputInt-1)%3])){
                     wrongChoice = true;
+                }else {
+                    currentBoard[1][(inputInt - 1) % 3] = currentPlayer;
+                    vacantField[1][(inputInt - 1) % 3] = false;
                 }
             }else if(inputInt >=7 && inputInt <=9){
                 if (!(vacantField[2][(inputInt-1)%3])){
                     wrongChoice = true;
+                }else {
+                    currentBoard[2][(inputInt - 1) % 3] = currentPlayer;
+                    vacantField[2][(inputInt - 1) % 3] = false;
+
                 }
             }
         }
@@ -172,7 +192,7 @@ public class TicTacToe {
     static void printGameBoard(){
         for (char[] row: currentBoard) {
             for (char field:row) {
-                System.out.println(field);
+                System.out.print(field);
             }
             System.out.println("");
         }
