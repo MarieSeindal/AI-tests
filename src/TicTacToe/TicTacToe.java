@@ -10,6 +10,7 @@ public class TicTacToe {
     static char player2;
     public static char currentPlayer = player1; //standard start med spiller 1, som x
     static Scanner scanner = new Scanner(System.in);
+    static String userInput;
 
     // 2d Array med point
     static int[][] points ={{3,2,3},{2,4,2},{3,2,3}};
@@ -17,10 +18,13 @@ public class TicTacToe {
     // 2d boolean Array med ledige pladser
     static boolean[][] vacantField ={{true,true,true},{true,true,true},{true,true,true}};
 
+    // 2d array with the board as it is, space = vacant, x=p1, o=p2, A=any
+    static char[][] currentBoard ={{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
+    static char[][] startState ={{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
+
     public static void main(String[] args) {
 
-        // 2d array with the board as it is, space = vacant, x=p1, o=p2, A=any
-        char[][] startState ={{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
+
 
         while (continueGame){
             initGame();
@@ -28,10 +32,13 @@ public class TicTacToe {
             play(startState);
 
             System.out.println("Play again?\ny/n");
-            String userInput = scanner.nextLine();
+            userInput = scanner.nextLine();
             userInput.toLowerCase();
-            if (userInput.equals("n"))
+            if ((!userInput.equals("y"))) {
+                System.out.println("User debug "+userInput);
                 continueGame = false;
+                System.out.println("GG! \nEnd of game");
+            }
 
         }
 
@@ -76,7 +83,6 @@ public class TicTacToe {
     }
 
     static void play(char[][] startState){
-        String printPlayer;
         while (!gameOver){
 
             //Promt move or calculate move.
@@ -84,16 +90,16 @@ public class TicTacToe {
             //Make move
 
             if(pvp){ //PvP game
-                if(currentPlayer == player1)
-                    printPlayer = "Player 1";
-                else printPlayer = "Player 2";
-
-                //Player makes move
-                System.out.println("Player " + printPlayer + " choose your move");
-                // take input
-                // Fill 2d array
+                makeMove();
             }
-            else{ //PvAI game
+            else{//PvAI game
+                if (currentPlayer == player1) { // if AI is o, this is the players turn.
+                    makeMove();
+                }else { // if AI is x
+
+                }
+
+
                 //if player 2's turn (AI)
                     // Calculate move with alhpa beta min max
                     // make move
@@ -118,6 +124,52 @@ public class TicTacToe {
     /*
     //return 0 for no ending, 1 for x won, 2 for o won, 3 for full board
     */
+
+    public static void makeMove(){
+
+        String printPlayer;
+        if(currentPlayer == player1)
+            printPlayer = "Player 1";
+        else printPlayer = "Player 2";
+
+        System.out.println("Player " + printPlayer + " choose your move");
+        int inputInt = scanner.nextInt();
+        boolean wrongChoice = false;
+        if (inputInt >=1 && inputInt <=3){
+            if (!(vacantField[0][inputInt-1])){
+                wrongChoice = true;
+            }
+        }else if(inputInt >=4 && inputInt <=6){
+            if (!(vacantField[1][(inputInt-1)%3])){
+                wrongChoice = true;
+            }
+        }else if(inputInt >=7 && inputInt <=9){
+            if (!(vacantField[2][(inputInt-1)%3])){
+                wrongChoice = true;
+            }
+        }
+
+        //Player makes move
+        while (wrongChoice){
+            System.out.println("That spot is taken. Player " + printPlayer + " choose a new move");
+            inputInt = scanner.nextInt();
+            if (inputInt >=1 && inputInt <=3){
+                if (!(vacantField[0][inputInt-1])){
+                    wrongChoice = true;
+                }
+            }else if(inputInt >=4 && inputInt <=6){
+                if (!(vacantField[1][(inputInt-1)%3])){
+                    wrongChoice = true;
+                }
+            }else if(inputInt >=7 && inputInt <=9){
+                if (!(vacantField[2][(inputInt-1)%3])){
+                    wrongChoice = true;
+                }
+            }
+        }
+
+    }
+
     public static int EndGame(char[][] currentState){
 
         //check current player
