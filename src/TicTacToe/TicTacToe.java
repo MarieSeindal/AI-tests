@@ -10,7 +10,6 @@ public class TicTacToe {
     static char player2;
     public static char currentPlayer = player1; //standard start med spiller 1, som x
     static Scanner scanner = new Scanner(System.in);
-    static String userInput;
 
     // 2d Array med point
     static int[][] points ={{3,2,3},{2,4,2},{3,2,3}};
@@ -23,6 +22,7 @@ public class TicTacToe {
     static char[][] startState ={{9634,9634,9634},{9634,9634,9634},{9634,9634,9634}};
 
     public static void main(String[] args) {
+        String userInput;
 
         while (continueGame){
             initGame();
@@ -96,15 +96,35 @@ public class TicTacToe {
 
                 }
 
-
                 //if player 2's turn (AI)
                     // Calculate move with alhpa beta min max
                     // make move
             }
 
             // victory or death?
-            if (!(EndGame(currentBoard) == 0)){ //if board full or victory, game-over is true.
-                gameOver = true;
+            switch (EndGame(currentBoard)){
+                case 0: //Board not full
+                    continue;
+                case 1: //x won
+                    if (player1 == 'x')
+                        System.out.println("Player 1 won this game!");
+                    else
+                        System.out.println("Player 2 won this game!");
+                    gameOver = true;
+                    break;
+
+                case 2: //o won
+                    if (player1 == 'o')
+                        System.out.println("Player 1 won this game!");
+                    else
+                        System.out.println("Player 2 won this game!");
+                    gameOver = true;
+                    break;
+
+                case 3: // board full
+                    System.out.println("Board full \nNo winner");
+                    gameOver = true;
+                    break;
             }
 
             // Switch players
@@ -112,16 +132,14 @@ public class TicTacToe {
                 currentPlayer = player2;
             }else
                 currentPlayer = player1;
-
             //break; //todo debug remove
 
         }
     }
 
-    /*
+    /**
     //return 0 for no ending, 1 for x won, 2 for o won, 3 for full board
-    */
-
+    **/
     public static void makeMove(){
 
         String printPlayer;
@@ -159,22 +177,20 @@ public class TicTacToe {
             System.out.println("That spot is taken. Player " + printPlayer + " choose a new move");
             inputInt = scanner.nextInt();
             if (inputInt >=1 && inputInt <=3){
-                if (!(vacantField[0][inputInt-1])){ //if spot is taken, you made a wrong choice
-                }else {
+                if (vacantField[0][inputInt-1]) { //if spot is taken, you made a wrong choice
                     currentBoard[0][(inputInt - 1) % 3] = currentPlayer;
                     vacantField[0][(inputInt - 1) % 3] = false;
                     takenField = false;
                 }
+
             }else if(inputInt >=4 && inputInt <=6){
-                if (!(vacantField[1][(inputInt-1)%3])){
-                }else {
+                if (vacantField[1][(inputInt-1)%3]){
                     currentBoard[1][(inputInt - 1) % 3] = currentPlayer;
                     vacantField[1][(inputInt - 1) % 3] = false;
                     takenField = false;
                 }
             }else if(inputInt >=7 && inputInt <=9){
-                if (!(vacantField[2][(inputInt-1)%3])){
-                }else {
+                if (vacantField[2][(inputInt-1)%3]){
                     currentBoard[2][(inputInt - 1) % 3] = currentPlayer;
                     vacantField[2][(inputInt - 1) % 3] = false;
                     takenField = false;
@@ -197,7 +213,7 @@ public class TicTacToe {
 
         //check current player
         if (checkPlayerwon(currentState)){
-            System.out.println("Player" + currentPlayer + " have won");
+            //System.out.println("Player" + currentPlayer + " have won");
             if (currentPlayer == 'x')
                 return 1;
             else return 2;
