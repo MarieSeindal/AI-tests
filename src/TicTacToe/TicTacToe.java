@@ -19,25 +19,26 @@ public class TicTacToe {
     static boolean[][] vacantField ={{true,true,true},{true,true,true},{true,true,true}};
 
     // 2d array with the board as it is, space = vacant, x=p1, o=p2, A=any
-    static char[][] currentBoard ={{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
-    static char[][] startState ={{' ',' ',' '},{' ',' ',' '},{' ',' ',' '}};
+    static char[][] currentBoard ={{9634,9634,9634},{9634,9634,9634},{9634,9634,9634}};
+    static char[][] startState ={{9634,9634,9634},{9634,9634,9634},{9634,9634,9634}};
 
     public static void main(String[] args) {
-
-
 
         while (continueGame){
             initGame();
 
-            play(startState);
+            play();
 
             System.out.println("Play again?\ny/n");
             userInput = scanner.nextLine();
             userInput.toLowerCase();
-            if ((!userInput.equals("y"))) {
+            if (userInput.equals("n")) {
                 System.out.println("User debug "+userInput);
                 continueGame = false;
                 System.out.println("GG! \nEnd of game");
+            }
+            else {
+                currentBoard = startState;
             }
 
         }
@@ -48,7 +49,7 @@ public class TicTacToe {
 
 
     static void initGame(){ //Prompt the player for some settings.
-        System.out.println("Welcome to Tic Tac Toe!");
+        System.out.println("Welcome to Tic Tac Toe!" );
         System.out.println("Please choose: \n 1: Player vs AI \n 2: Player vs Player");
         String userInput = scanner.nextLine();
 
@@ -77,24 +78,22 @@ public class TicTacToe {
         }
 
         //tutorial
-        System.out.println("In order to place a piece on the board, you need to type the number corresponding to the desired location.\n The locations are:");
+        System.out.println("In order to place a piece on the board, you need to type the number corresponding to the desired location.\nThe locations are:");
         System.out.println("1,2,3\n4,5,6\n7,8,9\n");
 
     }
 
-    static void play(char[][] startState){
+    static void play(){
         while (!gameOver){
-
-            //Promt move or calculate move.
-
-            //Make move
 
             if(pvp){ //PvP game
                 makeMove();
+                printGameBoard();
             }
             else{//PvAI game
                 if (currentPlayer == player1) { // if AI is o, this is the players turn.
                     makeMove();
+                    printGameBoard();
                 }else { // if AI is x
 
                 }
@@ -106,7 +105,7 @@ public class TicTacToe {
             }
 
             // victory or death?
-            if (!(EndGame(startState) == 0)){ //if board full or victory, game-over is true.
+            if (!(EndGame(currentBoard) == 0)){ //if board full or victory, game-over is true.
                 gameOver = true;
             }
 
@@ -116,7 +115,7 @@ public class TicTacToe {
             }else
                 currentPlayer = player1;
 
-            break; //todo debug remove
+            //break; //todo debug remove
 
         }
     }
@@ -168,6 +167,15 @@ public class TicTacToe {
             }
         }
 
+    }
+
+    static void printGameBoard(){
+        for (char[] row: currentBoard) {
+            for (char field:row) {
+                System.out.println(field);
+            }
+            System.out.println("");
+        }
     }
 
     public static int EndGame(char[][] currentState){
