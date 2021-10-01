@@ -126,63 +126,58 @@ public class TicTacToe {
 
         String printPlayer;
         if(currentPlayer == player1)
-            printPlayer = "Player 1";
-        else printPlayer = "Player 2";
+            printPlayer = "1";
+        else printPlayer = "2";
 
         System.out.println("Player " + printPlayer + " choose your move");
         int inputInt = scanner.nextInt();
-        boolean wrongChoice = false;
+        boolean takenField = false;
         if (inputInt >=1 && inputInt <=3){ //Row 1
             if (!(vacantField[0][inputInt-1])){ //if field is not vacant
-                wrongChoice = true;
+                takenField = true;
             }else {
                 currentBoard[0][inputInt - 1] = currentPlayer;
-                vacantField[0][inputInt - 1] = false;
-            }
-
+                vacantField[0][inputInt - 1] = false;}
 
         }else if(inputInt >=4 && inputInt <=6){ //Row 2
             if (!(vacantField[1][(inputInt-1)%3])){
-                wrongChoice = true;
+                takenField = true;
             }else {
                 currentBoard[1][(inputInt - 1) % 3] = currentPlayer;
-                vacantField[1][(inputInt - 1) % 3] = false;
-            }
+                vacantField[1][(inputInt - 1) % 3] = false;}
 
         }else if(inputInt >=7 && inputInt <=9){ //Row 3
             if (!(vacantField[2][(inputInt-1)%3])){
-                wrongChoice = true;
+                takenField = true;
             }else {
                 currentBoard[2][(inputInt - 1) % 3] = currentPlayer;
-                vacantField[2][(inputInt - 1) % 3] = false;
-            }
+                vacantField[2][(inputInt - 1) % 3] = false;}
         }
 
         //Player makes move
-        while (wrongChoice){ //If the player entered an illegal spot, loop until a valid spot is chosen.
+        while (takenField){ //If the player entered an illegal spot, loop until a valid spot is chosen.
             System.out.println("That spot is taken. Player " + printPlayer + " choose a new move");
             inputInt = scanner.nextInt();
             if (inputInt >=1 && inputInt <=3){
                 if (!(vacantField[0][inputInt-1])){ //if spot is taken, you made a wrong choice
-                    wrongChoice = true;
                 }else {
                     currentBoard[0][(inputInt - 1) % 3] = currentPlayer;
                     vacantField[0][(inputInt - 1) % 3] = false;
+                    takenField = false;
                 }
             }else if(inputInt >=4 && inputInt <=6){
                 if (!(vacantField[1][(inputInt-1)%3])){
-                    wrongChoice = true;
                 }else {
                     currentBoard[1][(inputInt - 1) % 3] = currentPlayer;
                     vacantField[1][(inputInt - 1) % 3] = false;
+                    takenField = false;
                 }
             }else if(inputInt >=7 && inputInt <=9){
                 if (!(vacantField[2][(inputInt-1)%3])){
-                    wrongChoice = true;
                 }else {
                     currentBoard[2][(inputInt - 1) % 3] = currentPlayer;
                     vacantField[2][(inputInt - 1) % 3] = false;
-
+                    takenField = false;
                 }
             }
         }
