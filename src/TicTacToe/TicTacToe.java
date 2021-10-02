@@ -35,7 +35,7 @@ public class TicTacToe {
             if (userInput.equals("n")) {
                 System.out.println("User debug "+userInput);
                 continueGame = false;
-                System.out.println("GG! \nEnd of game");
+                System.out.println("GG! \nEnd of game(s)");
             }
             else {
                 currentBoard = startState;
@@ -104,7 +104,7 @@ public class TicTacToe {
             // victory or death?
             switch (EndGame(currentBoard)){
                 case 0: //Board not full
-                    continue;
+                    break;
                 case 1: //x won
                     if (player1 == 'x')
                         System.out.println("Player 1 won this game!");
@@ -182,7 +182,6 @@ public class TicTacToe {
                     vacantField[0][(inputInt - 1) % 3] = false;
                     takenField = false;
                 }
-
             }else if(inputInt >=4 && inputInt <=6){
                 if (vacantField[1][(inputInt-1)%3]){
                     currentBoard[1][(inputInt - 1) % 3] = currentPlayer;
