@@ -138,9 +138,25 @@ public class TicTacToe {
         }
     }
 
-    /**
-    //return 0 for no ending, 1 for x won, 2 for o won, 3 for full board
-    **/
+    //todo: Node needs. boardState, alpha beta(use INT_MAX or INT_MIN instead of infinity), is max or min, depth
+    public static int minimax (TicTacNode mainParent){ //https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
+
+        // If leaf node, return static value of the board
+
+        //if max
+            //for each child.
+
+        //if min
+
+
+        return 0;
+    }
+
+    public static void findChildren(TicTacNode parrentToSearch){
+        //Find each possible move
+
+    }
+
     public static void makeMove(){
 
         String printPlayer;

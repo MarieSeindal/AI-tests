@@ -7,13 +7,12 @@ public class TicTacNode { //see pptx and yt
     int value;
     int alpha;
     int beta;
-    TicState gameState;
-
+    TicState state;
     ArrayList<TicTacNode> children;
 
     public TicTacNode(TicState gameState) {
         children = new ArrayList<>();
-        this.gameState = gameState;
+        state = gameState;
 
     }
 
