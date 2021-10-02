@@ -23,6 +23,7 @@ public class TicTacToe {
 
     public static void main(String[] args) {
         String userInput;
+        Scanner scan = new Scanner(System.in);
 
         while (continueGame){
             initGame();
@@ -30,12 +31,12 @@ public class TicTacToe {
             play();
 
             System.out.println("Play again?\ny/n");
-            userInput = scanner.nextLine();
+            userInput = scan.nextLine();
             userInput.toLowerCase();
             if (userInput.equals("n")) {
-                System.out.println("User debug "+userInput);
                 continueGame = false;
                 System.out.println("GG! \nEnd of game(s)");
+                scan.close();
             }
             else {
                 currentBoard = startState;
