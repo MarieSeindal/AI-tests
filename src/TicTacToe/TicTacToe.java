@@ -10,6 +10,7 @@ public class TicTacToe {
     static char player2;
     public static char currentPlayer = player1; //standard start med spiller 1, som x
     static Scanner scanner = new Scanner(System.in);
+    public static int maxDepth;
 
     // 2d Array med point
     static int[][] points ={{3,2,3},{2,4,2},{3,2,3}};
@@ -95,6 +96,14 @@ public class TicTacToe {
                     printGameBoard();
                 }else { // if AI is x
 
+                    // create starting node
+                    TicState stateToSearch = new TicState(currentBoard);
+                    TicTacNode search = new TicTacNode(stateToSearch);
+
+                    //Find children
+
+                    //call: minimax(0, 0, true, -1000000, +1000000)
+
                 }
 
                 //if player 2's turn (AI)
@@ -138,13 +147,28 @@ public class TicTacToe {
         }
     }
 
-    //todo: Node needs. boardState, alpha beta(use INT_MAX or INT_MIN instead of infinity), is max or min, depth
-    public static int minimax (TicTacNode mainParent){ //https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
+    public static int minimax (TicTacNode nodeTosearch, int depth, boolean isMax, int alpha, int beta){
+        //https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
 
         // If leaf node, return static value of the board
+        if (depth == maxDepth){ // leaf
+            evaluateLeaf(nodeTosearch.getState());
+            return 0;
+        }
+
+        //man starter på node 0, dybde 0.
+        else if (depth%2 == 0){ // node i dybde 0,2 ... lige tal er max, da algoritmen kører på denne spillers tur.
+
+        }
+
+        else if (depth%2 == 1){ // node i dybde 1,3 ... ulige tal er max, da algoritmen kører på modstanderens tur.
+
+        }
 
         //if max
-            //for each child.
+            //max val = Some very highg number
+            //for each child. for each vacant position on the board
+                //eval = minimax(vhild)
 
         //if min
 
@@ -152,10 +176,26 @@ public class TicTacToe {
         return 0;
     }
 
-    public static void findChildren(TicTacNode parrentToSearch){
-        //Find each possible move
+    public static int evaluateLeaf(TicState stateToScore){
 
+        // count the players character as negative
+        // count the AI's character as positive.
+        int xScore =0;
+
+        char[][] scoreFound = stateToScore.getPlacedPieces(); //get the char [][]
+        for (char[] a : scoreFound) {
+            for (char b: a) {
+
+            }
+
+        }
+
+
+
+        return 0;
     }
+
+
 
     public static void makeMove(){
 
