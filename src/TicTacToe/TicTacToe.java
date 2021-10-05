@@ -30,7 +30,7 @@ public class TicTacToe {
             initGame();
 
             char[][] test ={{'x',9634,9634},{9634,'x',9634},{9634,9634,9634}};
-            TicState test2 = new TicState(test);
+            TicState test1 = new TicState(test);
 
 
             play();
@@ -159,24 +159,54 @@ public class TicTacToe {
         }
 
         //man starter på node 0, dybde 0.
-        else if (depth%2 == 0){ // node i dybde 0,2 ... lige tal er max, da algoritmen kører på denne spillers tur.
+        else if (depth%2 == 0){ // node i dybde 0,2 ... lige tal er max, da algoritmen kører denne spillers tur.
+            int bestValue = alpha;
+
+            //For each child
+            //int value = minimax(TicTacNode, depth+1, false, alpha, beta);
+            //bestValue = max(bestValue,value);
+            //alpha = max(alpha,bestValue);
+            //if(beta <= alpha)
+            //break;
+            //End of for loop
+
+            return bestValue;
 
         }
 
-        else if (depth%2 == 1){ // node i dybde 1,3 ... ulige tal er max, da algoritmen kører på modstanderens tur.
+        else if (depth%2 == 1){ // node i dybde 1,3 ... ulige tal er min, da algoritmen kører modstanderens tur.
+            int bestValue = beta;
 
+            //For each child
+            //int value = minimax(TicTacNode, depth+1, true, alpha, beta);
+            //bestValue = min(bestValue,value);
+            //beta = min(beta,bestValue);
+            //if(beta <= alpha)
+            //break;
+            //End of for loop
+
+            return bestValue;
         }
 
-        //if max
-            //max val = Some very highg number
-            //for each child. for each vacant position on the board
-                //eval = minimax(vhild)
-
-        //if min
 
 
         return 0;
     }
+
+    public static int max(int a, int b){
+        if (a>b)
+            return a;
+        else return b;
+    }
+
+    public static int min(int a, int b){
+        if (a<b)
+            return a;
+        else return b;
+    }
+
+
+
 
     public static int evaluateLeaf(TicState stateToScore){
 
