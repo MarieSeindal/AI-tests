@@ -29,6 +29,10 @@ public class TicTacToe {
         while (continueGame){
             initGame();
 
+            char[][] test ={{'x',9634,9634},{9634,'x',9634},{9634,9634,9634}};
+            TicState test2 = new TicState(test);
+
+
             play();
 
             System.out.println("Play again?\ny/n");
@@ -101,14 +105,12 @@ public class TicTacToe {
                     TicTacNode search = new TicTacNode(stateToSearch);
 
                     //Find children
-
-                    //call: minimax(0, 0, true, -1000000, +1000000)
+                    // Calculate move with alhpa beta min max
+                    // make move
+                    //call: minimax(0, 0, true, -1000000, +1000000) //0 = node, 0=depth, true =isMax, alpha, beta
 
                 }
 
-                //if player 2's turn (AI)
-                    // Calculate move with alhpa beta min max
-                    // make move
             }
 
             // victory or death?
@@ -180,22 +182,31 @@ public class TicTacToe {
 
         // count the players character as negative
         // count the AI's character as positive.
-        int xScore =0;
 
-        char[][] scoreFound = stateToScore.getPlacedPieces(); //get the char [][]
-        for (char[] a : scoreFound) {
-            for (char b: a) {
+        int currentScore =0;
 
+        char[][] scoreFind = stateToScore.getPlacedPieces(); //get the char [][] board
+
+        int row=0;
+        for (char[] array : scoreFind) {
+            int column = 0; //for each row we check the first, second and third collum spot.
+            for (char field: array) {
+
+                if (field == 9634){ //if field is blank
+                }
+                else if (field == currentPlayer){ //if it is the current players turn
+                    currentScore += points[row][column];
+                }
+                else { // the oponent
+                    currentScore -= points[row][column];
+                }
+                column++;
             }
-
+            row++;
         }
 
-
-
-        return 0;
+        return currentScore;
     }
-
-
 
     public static void makeMove(){
 
