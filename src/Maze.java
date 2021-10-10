@@ -39,7 +39,6 @@ public class Maze {
         initialState.setMyField('s');
 
         stack.push(initialState);
-        System.out.println("Main initial state" + initialState.getLlocationY()); //todo slet
         search(initialState);
 
 

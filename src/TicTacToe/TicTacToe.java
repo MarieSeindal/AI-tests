@@ -6,17 +6,19 @@ import java.util.Scanner;
 public class TicTacToe {
     static boolean continueGame = true;
     public static boolean gameOver = false;
-    static boolean pvp = false; //assumed vs AI
+    static boolean pvp = false; //standard vs AI
     static char player1;
     static char player2;
     public static char currentPlayer = player1; //standard start med spiller 1, som x
     static Scanner scanner = new Scanner(System.in);
     public static int maxDepth;
+    static TicState bestMove; //todo, shall be changed during the algorithm to pick up the best move and execute it.
+    static int bestMoveScore =-100;
 
     // 2d Array med point
     static int[][] points ={{3,2,3},{2,4,2},{3,2,3}};
 
-    // 2d boolean Array med ledige pladser
+    // 2d boolean Array with vacant fields
     static boolean[][] vacantField ={{true,true,true},{true,true,true},{true,true,true}};
 
     // 2d array with the board as it is, space = vacant, x=p1, o=p2, A=any
@@ -105,15 +107,16 @@ public class TicTacToe {
                     TicState stateToSearch = new TicState(currentBoard);
                     TicTacNode search = new TicTacNode(stateToSearch);
 
-                    //Find children
-                    // Calculate move with alhpa beta min max
-                    // make move
-                    //call: minimax(0, 0, true, -1000000, +1000000) //0 = node, 0=depth, true =isMax, alpha, beta
+                    bestMoveScore = -100; // reset the score
 
+                    minimax(search,0,true,-1000000, +1000000);//nodeToSearch, 0=depth, true =isMax, alpha, beta
+
+                    // make move
+                    //currentBoard[] = currentPlayer;
+                    //vacantField[] = false;
                 }
 
             }
-
             // victory or death?
             switch (EndGame(currentBoard)){
                 case 0: //Board not full
@@ -145,8 +148,6 @@ public class TicTacToe {
                 currentPlayer = player2;
             }else
                 currentPlayer = player1;
-            //break; //todo debug remove
-
         }
     }
 
@@ -162,7 +163,7 @@ public class TicTacToe {
         }
 
         //man starter på node 0, dybde 0.
-        else if (depth%2 == 0){ // node i dybde 0,2 ... lige tal er max, da algoritmen kører denne spillers tur.
+        else if (depth%2 == 0){ // node in depth 0,2 ... straight numbers is max, as the algorithm runs the players turn.
             int bestValue = alpha;
             int value;
 
@@ -172,13 +173,22 @@ public class TicTacToe {
                 value = minimax(child,depth+1,false,alpha,beta);
                 bestValue = max(bestValue , value);
                 alpha = max(alpha , bestValue);
+
+                if (depth == 1){ //Todo attempt to record best move
+                    int calculateScore = evaluateLeaf(nodeTosearch.getState());
+                    if ( calculateScore > bestMoveScore){
+                        bestMoveScore = calculateScore;
+                        bestMove = nodeTosearch.getState();
+                    }
+                }
+
                 if(beta <= alpha)
                     break;
             }
             return bestValue;
         }
 
-        else if (depth%2 == 1){ // node i dybde 1,3 ... ulige tal er min, da algoritmen kører modstanderens tur.
+        else if (depth%2 == 1){ // node in depth 1,3 ... unequal numbers is min, as the algorithm runs the opponents turn.
             int bestValue = beta;
             int value;
 
@@ -193,8 +203,6 @@ public class TicTacToe {
             return bestValue;
         }
 
-
-
         return 0;
     }
 
@@ -202,8 +210,8 @@ public class TicTacToe {
 
         int vacantFields=0;  //For each vacant field, there is an option/child. This count the amounts of children, because why not?
 
-        char[][] boardParent = parent.state.getPlacedPieces();
-        System.out.println("Board parent: " + boardParent);
+        char[][] boardParent = parent.getState().getPlacedPieces();
+        System.out.println("Board parent: " + boardParent.toString());
 
         int rows=0;
         for (char[] row :boardParent) {
@@ -211,9 +219,8 @@ public class TicTacToe {
 
             for (char field :row) {
 
-                if (vacantField[rows][column]) {
+                if (vacantField[rows][column]) {//If field is vacant, there can be added a child for that move.
 
-                    //If field is vacant, there can be added a child for that move.
                     vacantFields++;
                     TicTacNode copy = parent.clone(); //make copy
                     copy.getState().setSinglePiece(rows,column,currentPlayer); // Make the vacant move
@@ -225,9 +232,6 @@ public class TicTacToe {
             rows++;
         }
     }
-
-
-
 
     public static int max(int a, int b){
         if (a>b)
