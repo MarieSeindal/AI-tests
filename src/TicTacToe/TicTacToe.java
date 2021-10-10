@@ -151,7 +151,9 @@ public class TicTacToe {
     }
 
     public static int minimax (TicTacNode nodeTosearch, int depth, boolean isMax, int alpha, int beta){
+        //Useful links
         //https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
+        //https://www.geeksforgeeks.org/multidimensional-arrays-in-java/
 
         // If leaf node, return static value of the board
         if (depth == maxDepth){ // leaf
@@ -162,30 +164,32 @@ public class TicTacToe {
         //man starter på node 0, dybde 0.
         else if (depth%2 == 0){ // node i dybde 0,2 ... lige tal er max, da algoritmen kører denne spillers tur.
             int bestValue = alpha;
+            int value;
 
-            //For each child
-            //int value = minimax(TicTacNode, depth+1, false, alpha, beta);
-            //bestValue = max(bestValue,value);
-            //alpha = max(alpha,bestValue);
-            //if(beta <= alpha)
-            //break;
-            //End of for loop
+            fillChildren(nodeTosearch); //Ad children to the parents arraylist
 
+            for (TicTacNode child : nodeTosearch.getChildren()) {
+                value = minimax(child,depth+1,false,alpha,beta);
+                bestValue = max(bestValue , value);
+                alpha = max(alpha , bestValue);
+                if(beta <= alpha)
+                    break;
+            }
             return bestValue;
-
         }
 
         else if (depth%2 == 1){ // node i dybde 1,3 ... ulige tal er min, da algoritmen kører modstanderens tur.
             int bestValue = beta;
+            int value;
 
-            //For each child
-            //int value = minimax(TicTacNode, depth+1, true, alpha, beta);
-            //bestValue = min(bestValue,value);
-            //beta = min(beta,bestValue);
-            //if(beta <= alpha)
-            //break;
-            //End of for loop
+            for (TicTacNode child : nodeTosearch.getChildren()) {
+                value =minimax(child, depth+1, true, alpha, beta);
+                bestValue = min(bestValue , value);
+                beta = min(beta , bestValue);
+                if (beta <= alpha)
+                    break;
 
+            }
             return bestValue;
         }
 
