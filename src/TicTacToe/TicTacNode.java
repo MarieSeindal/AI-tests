@@ -1,13 +1,11 @@
 package TicTacToe;
 
+import java.io.*;
 import java.util.ArrayList;
 
 public class TicTacNode { //see pptx and yt
-    TicTacNode parent;
-    int value;
     TicState state;
     ArrayList<TicTacNode> children;
-    String type;
 
     public TicTacNode(TicState gameState) {
         children = new ArrayList<>();
@@ -26,6 +24,27 @@ public class TicTacNode { //see pptx and yt
 
     public void addChildren(TicTacNode child) {
         this.children.add(child);
+    }
+
+    public TicTacNode clone() {
+        TicTacNode obj = null;
+        try {
+            // Write the object out to a byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(this);
+            out.flush();
+            out.close();
+
+            // Make an input stream from the byte array and read
+            // a copy of the object back in.
+            ObjectInputStream in = new ObjectInputStream(
+                    new ByteArrayInputStream(bos.toByteArray()));
+            obj = (TicTacNode) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
 

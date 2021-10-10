@@ -1,5 +1,6 @@
 package TicTacToe;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -193,6 +194,37 @@ public class TicTacToe {
         return 0;
     }
 
+    public static void fillChildren(TicTacNode parent){
+
+        int vacantFields=0;  //For each vacant field, there is an option/child. This count the amounts of children, because why not?
+
+        char[][] boardParent = parent.state.getPlacedPieces();
+        System.out.println("Board parent: " + boardParent);
+
+        int rows=0;
+        for (char[] row :boardParent) {
+            int column=0;
+
+            for (char field :row) {
+
+                if (vacantField[rows][column]) {
+
+                    //If field is vacant, there can be added a child for that move.
+                    vacantFields++;
+                    TicTacNode copy = parent.clone(); //make copy
+                    copy.getState().setSinglePiece(rows,column,currentPlayer); // Make the vacant move
+                    parent.addChildren(copy); //add child to the arraylist
+                }
+
+                column++;
+            }
+            rows++;
+        }
+    }
+
+
+
+
     public static int max(int a, int b){
         if (a>b)
             return a;
@@ -204,9 +236,6 @@ public class TicTacToe {
             return a;
         else return b;
     }
-
-
-
 
     public static int evaluateLeaf(TicState stateToScore){
 

@@ -15,4 +15,8 @@ public class TicState {
         this.placedPieces = placedPieces;
     }
 
+    public void setSinglePiece(int row, int column,char field){
+        this.placedPieces [row][column] = field;
+    }
+
 }
