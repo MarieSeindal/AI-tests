@@ -1,6 +1,5 @@
 package TicTacToe;
 
-import java.io.*;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -12,7 +11,7 @@ public class TicTacToe {
     public static char currentPlayer = player1; //standard start med spiller 1, som x
     static Scanner scanner = new Scanner(System.in);
     public static int maxDepth;
-    static TicState bestMove; //todo, shall be changed during the algorithm to pick up the best move and execute it.
+    static TicState bestMove; // Record the best state during algorithm
     static int bestMoveScore =-100;
 
     // 2d Array med point
@@ -118,7 +117,7 @@ public class TicTacToe {
 
             }
             // victory or death?
-            switch (EndGame(currentBoard)){
+            switch (endGame(currentBoard)){
                 case 0: //Board not full
                     break;
                 case 1: //x won
@@ -151,6 +150,25 @@ public class TicTacToe {
         }
     }
 
+    public static int[] extractMoveFromMinimax(TicState betterMove){
+        int[] moveFound = {0,0}; //todo
+
+        int rows=0;
+        for (char[] row : betterMove.placedPieces) {
+            int column=0;
+            for (char field : row) {
+
+                if (!(field == currentBoard[rows][column])){ //Backup: betterMove.placedPieces[rows][column]
+                    moveFound[0] = rows;
+                    moveFound[1] = column;
+                }
+                column++;
+            }
+            rows++;
+        }
+        return moveFound;
+    }
+
     public static int minimax (TicTacNode nodeTosearch, int depth, boolean isMax, int alpha, int beta){
         //Useful links
         //https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
@@ -174,7 +192,7 @@ public class TicTacToe {
                 bestValue = max(bestValue , value);
                 alpha = max(alpha , bestValue);
 
-                if (depth == 1){ //Todo attempt to record best move
+                if (depth == 1){ //Todo attempt to record best move. Maybe works?
                     int calculateScore = evaluateLeaf(nodeTosearch.getState());
                     if ( calculateScore > bestMoveScore){
                         bestMoveScore = calculateScore;
@@ -343,10 +361,10 @@ public class TicTacToe {
         }
     }
 
-    public static int EndGame(char[][] currentState){
+    public static int endGame(char[][] currentState){
 
         //check current player
-        if (checkPlayerwon(currentState)){
+        if (checkPlayerWon(currentState)){
             //System.out.println("Player" + currentPlayer + " have won");
             if (currentPlayer == 'x')
                 return 1;
@@ -373,7 +391,7 @@ public class TicTacToe {
         return true;
     }
 
-    static boolean checkPlayerwon(char[][] currentState){
+    static boolean checkPlayerWon(char[][] currentState){
         if (currentState[0][0] == currentPlayer &&
             currentState[0][1] == currentPlayer &&
             currentState[0][2] == currentPlayer) { //vandret top
