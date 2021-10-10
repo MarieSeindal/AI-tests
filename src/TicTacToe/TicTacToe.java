@@ -11,7 +11,6 @@ public class TicTacToe {
     public static char currentPlayer = player1; //standard start med spiller 1, som x
     static Scanner scanner = new Scanner(System.in);
     public static int maxDepth;
-    static TicState bestMove; // Record the best state during algorithm
     static int bestMoveScore =-100;
 
     // 2d Array med point
@@ -23,6 +22,7 @@ public class TicTacToe {
     // 2d array with the board as it is, space = vacant, x=p1, o=p2, A=any
     static char[][] currentBoard ={{9634,9634,9634},{9634,9634,9634},{9634,9634,9634}};
     static char[][] startState ={{9634,9634,9634},{9634,9634,9634},{9634,9634,9634}};
+    static TicState bestMove; // Record the best state during algorithm
 
     public static void main(String[] args) {
         String userInput;
@@ -110,9 +110,10 @@ public class TicTacToe {
 
                     minimax(search,0,true,-1000000, +1000000);//nodeToSearch, 0=depth, true =isMax, alpha, beta
 
-                    // make move
-                    //currentBoard[] = currentPlayer;
-                    //vacantField[] = false;
+                    int[] extractedMove = extractMoveFromMinimax(bestMove); //extract move
+
+                    currentBoard[extractedMove[0]][extractedMove[1]] = currentPlayer;
+                    vacantField[extractedMove[0]][extractedMove[1]] = false;
                 }
 
             }
@@ -154,11 +155,11 @@ public class TicTacToe {
         int[] moveFound = {0,0}; //todo
 
         int rows=0;
-        for (char[] row : betterMove.placedPieces) {
+        for (char[] row : betterMove.getPlacedPieces()) {
             int column=0;
             for (char field : row) {
 
-                if (!(field == currentBoard[rows][column])){ //Backup: betterMove.placedPieces[rows][column]
+                if (!(field == currentBoard[rows][column])){ //Backup: betterMove.getPlacedPieces[rows][column]
                     moveFound[0] = rows;
                     moveFound[1] = column;
                 }
@@ -193,10 +194,12 @@ public class TicTacToe {
                 alpha = max(alpha , bestValue);
 
                 if (depth == 1){ //Todo attempt to record best move. Maybe works?
+                    System.out.println("Hurray we made it into if depth = 1 ");
                     int calculateScore = evaluateLeaf(nodeTosearch.getState());
                     if ( calculateScore > bestMoveScore){
+                        System.out.println("Hurray we made it into if calculate score ");
                         bestMoveScore = calculateScore;
-                        bestMove = nodeTosearch.getState();
+                        bestMove.setPlacedPieces(nodeTosearch.getState().getPlacedPieces());
                     }
                 }
 
