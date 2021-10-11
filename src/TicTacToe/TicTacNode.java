@@ -26,7 +26,7 @@ public class TicTacNode { //see pptx and yt
         this.children.add(child);
     }
 
-    public TicTacNode clone() {
+    public TicTacNode clone() { //todo tjek op på hvilke klasser der skal være serialisable
         TicTacNode obj = null;
         try {
             // Write the object out to a byte array

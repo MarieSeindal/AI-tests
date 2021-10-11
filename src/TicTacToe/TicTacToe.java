@@ -10,7 +10,7 @@ public class TicTacToe {
     static char player2;
     public static char currentPlayer = player1; //standard start med spiller 1, som x
     static Scanner scanner = new Scanner(System.in);
-    public static int maxDepth;
+    public static int maxDepth = 3;
     static int bestMoveScore =-100;
 
     // 2d Array med point
@@ -232,7 +232,7 @@ public class TicTacToe {
         int vacantFields=0;  //For each vacant field, there is an option/child. This count the amounts of children, because why not?
 
         char[][] boardParent = parent.getState().getPlacedPieces();
-        System.out.println("Board parent: " + boardParent.toString());
+        System.out.println("Board parent: " + boardParent);
 
         int rows=0;
         for (char[] row :boardParent) {
