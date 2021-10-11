@@ -1,6 +1,8 @@
 package TicTacToe;
 
-public class TicState {
+import java.io.Serializable;
+
+public class TicState implements Serializable {
 
     char [][] placedPieces;
 

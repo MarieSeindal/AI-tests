@@ -1,8 +1,9 @@
 package TicTacToe;
 
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class TicTacToe {
+public class TicTacToe implements Serializable {
     static boolean continueGame = true;
     public static boolean gameOver = false;
     static boolean pvp = false; //standard vs AI
@@ -108,12 +109,16 @@ public class TicTacToe {
 
                     bestMoveScore = -100; // reset the score
 
-                    minimax(search,0,true,-1000000, +1000000);//nodeToSearch, 0=depth, true =isMax, alpha, beta
+                    int someScore = minimax(search,0,true,-1000000, +1000000);//nodeToSearch, 0=depth, true =isMax, alpha, beta
+                    System.out.println("Score fra minimax " + someScore);
 
                     int[] extractedMove = extractMoveFromMinimax(); //extract move
 
                     currentBoard[extractedMove[0]][extractedMove[1]] = currentPlayer;
                     vacantField[extractedMove[0]][extractedMove[1]] = false;
+
+                    printGameBoard();
+
                 }
 
             }
@@ -178,13 +183,16 @@ public class TicTacToe {
 
         // If leaf node, return static value of the board
         if (depth == maxDepth){ // leaf
+            System.out.println("Leaf return in depth " + depth);
             return (evaluateLeaf(nodeTosearch.getState()));
         }
 
         //man starter på depth 0. Node 0 er da max.
-        else if (depth%2 == 0){ // node in depth 0,2 ... straight numbers is max, as the algorithm runs the players turn.
+        else if (isMax){ // node in depth 0,2 ... straight numbers is max, as the algorithm runs the players turn.
             int bestValue = alpha;
             int value;
+            System.out.println("Max alpha " + alpha);
+            System.out.println("Max beta " + beta);
 
             fillChildren(nodeTosearch); //Ad children to the parents arraylist
 
@@ -198,9 +206,13 @@ public class TicTacToe {
             }
             return bestValue;
         }
-        else if (depth%2 == 1){ // node in depth 1,3 ... unequal numbers is min, as the algorithm runs the opponents turn.
+        else if (!isMax){ // node in depth 1,3 ... unequal numbers is min, as the algorithm runs the opponents turn.
             int bestValue = beta;
             int value;
+            System.out.println("Min alpha " + alpha);
+            System.out.println("Min beta " + beta);
+
+            fillChildren(nodeTosearch); //Ad children to the parents arraylist
 
             for (TicTacNode child : nodeTosearch.getChildren()) {
                 value =minimax(child, depth+1, true, alpha, beta);
@@ -211,9 +223,9 @@ public class TicTacToe {
                     System.out.println("Hurray we made it into if depth = 1 ");
                     int calculateScore = evaluateLeaf(nodeTosearch.getState());
                     if ( calculateScore > bestMoveScore){
-                        System.out.println("Hurray we made it into if calculate score ");
+                        System.out.println("Hurray we made it into if calculate score " + calculateScore);
                         bestMoveScore = calculateScore;
-                        bestMove.setPlacedPieces(nodeTosearch.getState().getPlacedPieces());
+                        bestMove = nodeTosearch.getState();
                     }
                 }
 
@@ -232,7 +244,6 @@ public class TicTacToe {
         int vacantFields=0;  //For each vacant field, there is an option/child. This count the amounts of children, because why not?
 
         char[][] boardParent = parent.getState().getPlacedPieces();
-        System.out.println("Board parent: " + boardParent);
 
         int rows=0;
         for (char[] row :boardParent) {

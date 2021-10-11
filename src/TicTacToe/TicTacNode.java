@@ -3,7 +3,7 @@ package TicTacToe;
 import java.io.*;
 import java.util.ArrayList;
 
-public class TicTacNode { //see pptx and yt
+public class TicTacNode implements Serializable { //see pptx and yt
     TicState state;
     ArrayList<TicTacNode> children;
 
