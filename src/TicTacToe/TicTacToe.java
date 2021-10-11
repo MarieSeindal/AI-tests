@@ -182,7 +182,7 @@ public class TicTacToe {
         }
 
         //man starter på node 0, dybde 0.
-        else if (depth%2 == 0){ // node in depth 0,2 ... straight numbers is max, as the algorithm runs the players turn.
+        else if (depth%2 == 1){ // node in depth 0,2 ... straight numbers is max, as the algorithm runs the players turn.
             int bestValue = alpha;
             int value;
 
@@ -208,8 +208,7 @@ public class TicTacToe {
             }
             return bestValue;
         }
-
-        else if (depth%2 == 1){ // node in depth 1,3 ... unequal numbers is min, as the algorithm runs the opponents turn.
+        else if (depth%2 == 0){ // node in depth 1,3 ... unequal numbers is min, as the algorithm runs the opponents turn.
             int bestValue = beta;
             int value;
 
