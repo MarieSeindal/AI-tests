@@ -110,7 +110,7 @@ public class TicTacToe {
 
                     minimax(search,0,true,-1000000, +1000000);//nodeToSearch, 0=depth, true =isMax, alpha, beta
 
-                    int[] extractedMove = extractMoveFromMinimax(bestMove); //extract move
+                    int[] extractedMove = extractMoveFromMinimax(); //extract move
 
                     currentBoard[extractedMove[0]][extractedMove[1]] = currentPlayer;
                     vacantField[extractedMove[0]][extractedMove[1]] = false;
@@ -151,11 +151,11 @@ public class TicTacToe {
         }
     }
 
-    public static int[] extractMoveFromMinimax(TicState betterMove){
+    public static int[] extractMoveFromMinimax(){ // compares current board with best move and returns coordinate to best move
         int[] moveFound = {0,0}; //todo
 
         int rows=0;
-        for (char[] row : betterMove.getPlacedPieces()) {
+        for (char[] row : bestMove.getPlacedPieces()) {
             int column=0;
             for (char field : row) {
 
@@ -174,15 +174,15 @@ public class TicTacToe {
         //Useful links
         //https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-4-alpha-beta-pruning/
         //https://www.geeksforgeeks.org/multidimensional-arrays-in-java/
+        System.out.println("Depth in minimax "+depth); //todo
 
         // If leaf node, return static value of the board
         if (depth == maxDepth){ // leaf
-            evaluateLeaf(nodeTosearch.getState());
-            return 0;
+            return (evaluateLeaf(nodeTosearch.getState()));
         }
 
-        //man starter på node 0, dybde 0.
-        else if (depth%2 == 1){ // node in depth 0,2 ... straight numbers is max, as the algorithm runs the players turn.
+        //man starter på depth 0. Node 0 er da max.
+        else if (depth%2 == 0){ // node in depth 0,2 ... straight numbers is max, as the algorithm runs the players turn.
             int bestValue = alpha;
             int value;
 
@@ -192,6 +192,20 @@ public class TicTacToe {
                 value = minimax(child,depth+1,false,alpha,beta);
                 bestValue = max(bestValue , value);
                 alpha = max(alpha , bestValue);
+
+                if(beta <= alpha)
+                    break;
+            }
+            return bestValue;
+        }
+        else if (depth%2 == 1){ // node in depth 1,3 ... unequal numbers is min, as the algorithm runs the opponents turn.
+            int bestValue = beta;
+            int value;
+
+            for (TicTacNode child : nodeTosearch.getChildren()) {
+                value =minimax(child, depth+1, true, alpha, beta);
+                bestValue = min(bestValue , value);
+                beta = min(beta , bestValue);
 
                 if (depth == 1){ //Todo attempt to record best move. Maybe works?
                     System.out.println("Hurray we made it into if depth = 1 ");
@@ -203,19 +217,6 @@ public class TicTacToe {
                     }
                 }
 
-                if(beta <= alpha)
-                    break;
-            }
-            return bestValue;
-        }
-        else if (depth%2 == 0){ // node in depth 1,3 ... unequal numbers is min, as the algorithm runs the opponents turn.
-            int bestValue = beta;
-            int value;
-
-            for (TicTacNode child : nodeTosearch.getChildren()) {
-                value =minimax(child, depth+1, true, alpha, beta);
-                bestValue = min(bestValue , value);
-                beta = min(beta , bestValue);
                 if (beta <= alpha)
                     break;
 
